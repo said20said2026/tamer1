@@ -6,5 +6,5 @@ Disallow: /search/label/*?updated-min
 Disallow: /search/label/*?updated-max
 Allow: /
 
-Sitemap: https://games-children.com
-Sitemap: https://games-children.com/sitemap.xml
+Sitemap: https://www.games-children.com
+Sitemap: https://www.games-children.com/sitemap.xml
