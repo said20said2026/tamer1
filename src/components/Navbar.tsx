@@ -3,7 +3,6 @@ import {
   Search, 
   Scale, 
   Heart, 
-  User, 
   Sparkles, 
   Percent, 
   Smartphone, 
@@ -23,7 +22,6 @@ import {
 } from 'lucide-react';
 import { CurrencyCode } from '../types/phone';
 import { CURRENCIES } from '../utils/currency';
-import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -35,7 +33,7 @@ interface NavbarProps {
   compareCount: number;
   onOpenCompare: () => void;
   onOpenVoiceChat: () => void;
-  onOpenAuth: () => void;
+  onOpenAuth?: () => void;
   onOpenBarcodeScanner?: () => void;
   onOpenGlobalStores?: () => void;
   activeTab: 'explore' | 'compare' | 'deals' | 'favorites' | 'privacy' | 'about' | 'contact';
@@ -50,13 +48,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   compareCount,
   onOpenCompare,
   onOpenVoiceChat,
-  onOpenAuth,
+  onOpenAuth: _onOpenAuth,
   onOpenBarcodeScanner,
   onOpenGlobalStores,
   activeTab,
   onTabChange,
 }) => {
-  const { user } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const { isArabic, toggleLanguage, t, language } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -395,30 +392,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               title={isDarkMode ? t.themeLight : t.themeDark}
             >
               {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
-            </button>
-
-            {/* User Profile / Login */}
-            <button
-              onClick={onOpenAuth}
-              className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors"
-            >
-              {user ? (
-                <>
-                  <div className="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-xs overflow-hidden">
-                    {user.avatarUrl ? (
-                      <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
-                    ) : (
-                      user.name.charAt(0)
-                    )}
-                  </div>
-                  <span className="hidden sm:inline max-w-[90px] truncate">{user.name}</span>
-                </>
-              ) : (
-                <>
-                  <User className="w-4 h-4 text-slate-500" />
-                  <span className="hidden sm:inline">{t.signIn}</span>
-                </>
-              )}
             </button>
 
             {/* Mobile Hamburger toggle */}
