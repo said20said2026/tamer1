@@ -1,11 +1,13 @@
 import React from 'react';
-import { Scale, Heart, ShieldCheck, Sparkles, Volume2, Bell, Info, Lock } from 'lucide-react';
+import { Scale, Heart, ShieldCheck, Sparkles, Volume2, Bell, Info, Lock, Mail } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 interface FooterProps {
   onOpenVoiceChat: () => void;
   onOpenAlerts: () => void;
   onOpenPrivacy?: () => void;
+  onOpenAbout?: () => void;
+  onOpenContact?: () => void;
   onOpenGlobalStores?: () => void;
 }
 
@@ -13,6 +15,8 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenVoiceChat, 
   onOpenAlerts, 
   onOpenPrivacy,
+  onOpenAbout,
+  onOpenContact,
   onOpenGlobalStores
 }) => {
   const { isArabic, t } = useLanguage();
@@ -103,6 +107,28 @@ export const Footer: React.FC<FooterProps> = ({
                 </button>
               </li>
               <li>
+                {onOpenAbout && (
+                  <button
+                    onClick={onOpenAbout}
+                    className="hover:text-amber-400 flex items-center gap-1.5 text-start transition-colors"
+                  >
+                    <Info className="w-3.5 h-3.5 text-amber-500" />
+                    <span>{isArabic ? 'من نحن (عن منصة قارن تك)' : 'About Us (Our Story & Mission)'}</span>
+                  </button>
+                )}
+              </li>
+              <li>
+                {onOpenContact && (
+                  <button
+                    onClick={onOpenContact}
+                    className="hover:text-amber-400 flex items-center gap-1.5 text-start transition-colors"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-amber-500" />
+                    <span>{isArabic ? 'اتصل بنا وفريق الدعم' : 'Contact Us & Support Team'}</span>
+                  </button>
+                )}
+              </li>
+              <li>
                 {onOpenPrivacy && (
                   <button
                     onClick={onOpenPrivacy}
@@ -141,7 +167,25 @@ export const Footer: React.FC<FooterProps> = ({
               ? `جميع الحقوق محفوظة © ${new Date().getFullYear()} قارن تك - مقارنة أسعار الهواتف الذكية.`
               : `All rights reserved © ${new Date().getFullYear()} QarenTech - Smartphone Price Comparison.`}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            {onOpenAbout && (
+              <button
+                onClick={onOpenAbout}
+                className="hover:text-amber-400 underline transition-colors"
+              >
+                {t.about}
+              </button>
+            )}
+            <span aria-hidden="true">·</span>
+            {onOpenContact && (
+              <button
+                onClick={onOpenContact}
+                className="hover:text-amber-400 underline transition-colors"
+              >
+                {t.contactUs}
+              </button>
+            )}
+            <span aria-hidden="true">·</span>
             {onOpenPrivacy && (
               <button
                 onClick={onOpenPrivacy}
