@@ -57,6 +57,12 @@ app.get('/google:code.html', (req, res) => {
   res.send(`google-site-verification: google${req.params.code}.html`);
 });
 
+// Endpoint for AdSense ads.txt
+app.get('/ads.txt', (req, res) => {
+  res.header('Content-Type', 'text/plain; charset=utf-8');
+  res.send('google.com, pub-9316249900269214, DIRECT, f08c47fec0942fa0\n');
+});
+
 
 // Phone context data summary for the AI
 const PHONES_SUMMARY = `
