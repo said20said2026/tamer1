@@ -17,6 +17,7 @@ export interface Translations {
   favorites: string;
   about: string;
   privacy: string;
+  terms: string;
   contactUs: string;
   signIn: string;
   signOut: string;
@@ -87,6 +88,7 @@ const AR_TRANSLATIONS: Translations = {
   favorites: 'المفضلة',
   about: 'من نحن',
   privacy: 'سياسة الخصوصية',
+  terms: 'شروط الاستخدام',
   contactUs: 'اتصل بنا',
   signIn: 'تسجيل الدخول',
   signOut: 'تسجيل الخروج',
@@ -153,6 +155,7 @@ const EN_TRANSLATIONS: Translations = {
   favorites: 'Favorites',
   about: 'About Us',
   privacy: 'Privacy Policy',
+  terms: 'Terms of Use',
   contactUs: 'Contact Us',
   signIn: 'Sign In',
   signOut: 'Sign Out',

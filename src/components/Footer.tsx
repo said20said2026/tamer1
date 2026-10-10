@@ -1,11 +1,12 @@
 import React from 'react';
-import { Scale, Heart, ShieldCheck, Sparkles, Volume2, Bell, Info, Lock, Mail } from 'lucide-react';
+import { Scale, Heart, ShieldCheck, Sparkles, Volume2, Bell, Info, Lock, Mail, FileText } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 interface FooterProps {
   onOpenVoiceChat: () => void;
   onOpenAlerts: () => void;
   onOpenPrivacy?: () => void;
+  onOpenTerms?: () => void;
   onOpenAbout?: () => void;
   onOpenContact?: () => void;
   onOpenGlobalStores?: () => void;
@@ -15,6 +16,7 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenVoiceChat, 
   onOpenAlerts, 
   onOpenPrivacy,
+  onOpenTerms,
   onOpenAbout,
   onOpenContact,
   onOpenGlobalStores
@@ -139,6 +141,17 @@ export const Footer: React.FC<FooterProps> = ({
                   </button>
                 )}
               </li>
+              {onOpenTerms && (
+                <li>
+                  <button
+                    onClick={onOpenTerms}
+                    className="hover:text-amber-400 flex items-center gap-1.5 text-start transition-colors"
+                  >
+                    <FileText className="w-3.5 h-3.5 text-amber-500" />
+                    <span>{isArabic ? 'شروط وأحكام الاستخدام' : 'Terms of Service & Usage'}</span>
+                  </button>
+                </li>
+              )}
               <li>
                 <span className="flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
@@ -195,6 +208,17 @@ export const Footer: React.FC<FooterProps> = ({
               </button>
             )}
             <span aria-hidden="true">·</span>
+            {onOpenTerms && (
+              <>
+                <button
+                  onClick={onOpenTerms}
+                  className="hover:text-amber-400 underline transition-colors"
+                >
+                  {t.terms}
+                </button>
+                <span aria-hidden="true">·</span>
+              </>
+            )}
             <a
               href="/sitemap.xml"
               target="_blank"

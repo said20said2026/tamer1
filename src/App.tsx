@@ -10,6 +10,7 @@ import { GeminiVoiceChat } from './components/GeminiVoiceChat';
 import { DealsBanner } from './components/DealsBanner';
 import { LoginPage } from './components/LoginPage';
 import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
+import { TermsOfServicePage } from './components/TermsOfServicePage';
 import { AboutUsPage } from './components/AboutUsPage';
 import { ContactUsPage } from './components/ContactUsPage';
 import { GlobalStoresModal } from './components/GlobalStoresModal';
@@ -47,7 +48,7 @@ function MainApp() {
       let phoneParam = params.get('phone');
       const searchParam = params.get('q') || '';
       
-      const validTabs = ['explore', 'compare', 'deals', 'favorites', 'privacy', 'about', 'contact'];
+      const validTabs = ['explore', 'compare', 'deals', 'favorites', 'privacy', 'terms', 'about', 'contact'];
       if (!tabParam && validTabs.includes(rawPath)) {
         tabParam = rawPath;
       }
@@ -72,7 +73,7 @@ function MainApp() {
   const initialUrlState = useMemo(() => getInitialStateFromURL(), []);
 
   // Navigation & View State
-  const [activeTab, setActiveTab] = useState<'explore' | 'compare' | 'deals' | 'favorites' | 'privacy' | 'about' | 'contact'>(initialUrlState.tab);
+  const [activeTab, setActiveTab] = useState<'explore' | 'compare' | 'deals' | 'favorites' | 'privacy' | 'terms' | 'about' | 'contact'>(initialUrlState.tab);
   const [isAuthPageOpen, setIsAuthPageOpen] = useState(false);
   const [isVoiceChatOpen, setIsVoiceChatOpen] = useState(false);
   const [isAlertsManagerOpen, setIsAlertsManagerOpen] = useState(false);
@@ -356,6 +357,26 @@ function MainApp() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onOpenVoiceChat={() => setIsVoiceChatOpen(true)}
+          />
+        ) : activeTab === 'terms' ? (
+          /* VIEW 4.5: TERMS OF SERVICE (شروط الاستخدام) */
+          <TermsOfServicePage
+            onExplore={() => {
+              setActiveTab('explore');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenCompare={() => {
+              setActiveTab('compare');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenPrivacy={() => {
+              setActiveTab('privacy');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onOpenContact={() => {
+              setActiveTab('contact');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
           />
         ) : activeTab === 'about' ? (
           /* VIEW 5: ABOUT US (من نحن) */
@@ -667,6 +688,11 @@ function MainApp() {
         onOpenPrivacy={() => {
           setIsAuthPageOpen(false);
           setActiveTab('privacy');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onOpenTerms={() => {
+          setIsAuthPageOpen(false);
+          setActiveTab('terms');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         onOpenAbout={() => {
