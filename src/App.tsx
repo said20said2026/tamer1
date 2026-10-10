@@ -9,9 +9,7 @@ import { AlertsManagerModal } from './components/AlertsManagerModal';
 import { GeminiVoiceChat } from './components/GeminiVoiceChat';
 import { DealsBanner } from './components/DealsBanner';
 import { LoginPage } from './components/LoginPage';
-import { AboutUsPage } from './components/AboutUsPage';
 import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
-import { ContactUsPage } from './components/ContactUsPage';
 import { GlobalStoresModal } from './components/GlobalStoresModal';
 import { BarcodeScannerModal } from './components/BarcodeScannerModal';
 import { Footer } from './components/Footer';
@@ -39,7 +37,7 @@ function MainApp() {
   const { isArabic, direction, t } = useLanguage();
 
   // Navigation & View State
-  const [activeTab, setActiveTab] = useState<'explore' | 'compare' | 'deals' | 'favorites' | 'about' | 'privacy' | 'contact'>('explore');
+  const [activeTab, setActiveTab] = useState<'explore' | 'compare' | 'deals' | 'favorites' | 'privacy'>('explore');
   const [isAuthPageOpen, setIsAuthPageOpen] = useState(false);
   const [isVoiceChatOpen, setIsVoiceChatOpen] = useState(false);
   const [isAlertsManagerOpen, setIsAlertsManagerOpen] = useState(false);
@@ -275,35 +273,9 @@ function MainApp() {
             currency={currency}
             onBackToExplore={() => setActiveTab('explore')}
           />
-        ) : activeTab === 'about' ? (
-          /* VIEW 3: ABOUT US (من نحن) */
-          <AboutUsPage
-            onExplore={() => {
-              setActiveTab('explore');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenCompare={() => {
-              setActiveTab('compare');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenVoiceChat={() => setIsVoiceChatOpen(true)}
-          />
         ) : activeTab === 'privacy' ? (
           /* VIEW 4: PRIVACY POLICY (سياسة الخصوصية) */
           <PrivacyPolicyPage
-            onExplore={() => {
-              setActiveTab('explore');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenCompare={() => {
-              setActiveTab('compare');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenVoiceChat={() => setIsVoiceChatOpen(true)}
-          />
-        ) : activeTab === 'contact' ? (
-          /* VIEW 5: CONTACT US (اتصل بنا) */
-          <ContactUsPage
             onExplore={() => {
               setActiveTab('explore');
               window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -592,19 +564,9 @@ function MainApp() {
       <Footer
         onOpenVoiceChat={() => setIsVoiceChatOpen(true)}
         onOpenAlerts={() => setIsAlertsManagerOpen(true)}
-        onOpenAbout={() => {
-          setIsAuthPageOpen(false);
-          setActiveTab('about');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
         onOpenPrivacy={() => {
           setIsAuthPageOpen(false);
           setActiveTab('privacy');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-        onOpenContact={() => {
-          setIsAuthPageOpen(false);
-          setActiveTab('contact');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         onOpenGlobalStores={() => setIsGlobalStoresModalOpen(true)}

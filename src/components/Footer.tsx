@@ -5,18 +5,14 @@ import { useLanguage } from '../context/LanguageContext';
 interface FooterProps {
   onOpenVoiceChat: () => void;
   onOpenAlerts: () => void;
-  onOpenAbout?: () => void;
   onOpenPrivacy?: () => void;
-  onOpenContact?: () => void;
   onOpenGlobalStores?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ 
   onOpenVoiceChat, 
   onOpenAlerts, 
-  onOpenAbout,
   onOpenPrivacy,
-  onOpenContact,
   onOpenGlobalStores
 }) => {
   const { isArabic, t } = useLanguage();
@@ -107,17 +103,6 @@ export const Footer: React.FC<FooterProps> = ({
                 </button>
               </li>
               <li>
-                {onOpenAbout && (
-                  <button
-                    onClick={onOpenAbout}
-                    className="hover:text-amber-400 flex items-center gap-1.5 text-start transition-colors"
-                  >
-                    <Info className="w-3.5 h-3.5 text-amber-500" />
-                    <span>{isArabic ? 'من نحن — قصة ورؤية قارن تك' : 'About Us — Story & Mission'}</span>
-                  </button>
-                )}
-              </li>
-              <li>
                 {onOpenPrivacy && (
                   <button
                     onClick={onOpenPrivacy}
@@ -125,17 +110,6 @@ export const Footer: React.FC<FooterProps> = ({
                   >
                     <Lock className="w-3.5 h-3.5 text-amber-500" />
                     <span>{isArabic ? 'سياسة الخصوصية وسرية المعلومات' : 'Privacy Policy & Data Protection'}</span>
-                  </button>
-                )}
-              </li>
-              <li>
-                {onOpenContact && (
-                  <button
-                    onClick={onOpenContact}
-                    className="hover:text-amber-400 flex items-center gap-1.5 text-start transition-colors"
-                  >
-                    <Info className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>{isArabic ? 'اتصل بنا والدعم الفني المباشر' : 'Contact Us & Direct Support'}</span>
                   </button>
                 )}
               </li>
@@ -174,14 +148,6 @@ export const Footer: React.FC<FooterProps> = ({
                 className="hover:text-amber-400 underline transition-colors"
               >
                 {t.privacy}
-              </button>
-            )}
-            {onOpenAbout && (
-              <button
-                onClick={onOpenAbout}
-                className="hover:text-amber-400 underline transition-colors"
-              >
-                {t.about}
               </button>
             )}
             <span aria-hidden="true">·</span>
