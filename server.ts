@@ -17,18 +17,38 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const apiKey = process.env.GEMINI_API_KEY;
 const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
-// Endpoint for sitemap.xml
-app.get('/sitemap.xml', (_req, res) => {
+import fs from 'fs';
+
+// Endpoint for sitemap.xml (dynamically adapts domain to the request host so Google Search Console always matches)
+app.get('/sitemap.xml', (req, res) => {
   const sitemapPath = path.resolve(__dirname, 'public', 'sitemap.xml');
-  res.header('Content-Type', 'application/xml');
-  res.sendFile(sitemapPath);
+  try {
+    let content = fs.readFileSync(sitemapPath, 'utf8');
+    
+    // Determine the current host & protocol
+    const host = req.get('x-forwarded-host') || req.get('host') || 'ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app';
+    const proto = (req.get('x-forwarded-proto') || req.protocol || 'https').split(',')[0].trim();
+    const currentOrigin = `${proto}://${host}`;
+
+    // Replace default origin with current request origin
+    content = content.replace(/https:\/\/ais-pre-4dm7wd6x3okloymifhfqwt-132574016671\.europe-west1\.run\.app/g, currentOrigin);
+
+    res.header('Content-Type', 'application/xml; charset=utf-8');
+    res.send(content);
+  } catch (err) {
+    console.error('Error serving sitemap.xml:', err);
+    res.status(500).send('Error loading sitemap');
+  }
 });
 
-// Endpoint for robots.txt
-app.get('/robots.txt', (_req, res) => {
-  const robotsPath = path.resolve(__dirname, 'public', 'robots.txt');
-  res.header('Content-Type', 'text/plain');
-  res.sendFile(robotsPath);
+// Endpoint for robots.txt (dynamically points to the canonical sitemap of the current domain)
+app.get('/robots.txt', (req, res) => {
+  const host = req.get('x-forwarded-host') || req.get('host');
+  const proto = (req.get('x-forwarded-proto') || req.protocol || 'https').split(',')[0].trim();
+  const origin = host ? `${proto}://${host}` : '';
+  
+  res.header('Content-Type', 'text/plain; charset=utf-8');
+  res.send(`User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`);
 });
 
 

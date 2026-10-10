@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { FilterSidebar } from './components/FilterSidebar';
 import { PhoneCard } from './components/PhoneCard';
@@ -38,8 +38,29 @@ function MainApp() {
   const { user } = useAuth();
   const { isArabic, direction, t } = useLanguage();
 
+  // Read initial parameters from window.location.search
+  const getInitialStateFromURL = () => {
+    if (typeof window === 'undefined') return { tab: 'explore', phoneId: null, search: '' };
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab');
+      const phoneParam = params.get('phone');
+      const searchParam = params.get('q') || '';
+      
+      const validTabs = ['explore', 'compare', 'deals', 'favorites', 'privacy', 'about', 'contact'];
+      const tab = tabParam && validTabs.includes(tabParam) ? (tabParam as any) : 'explore';
+      const phoneId = phoneParam && PHONES_DATA.some(p => p.id === phoneParam) ? phoneParam : null;
+
+      return { tab, phoneId, search: searchParam };
+    } catch {
+      return { tab: 'explore', phoneId: null, search: '' };
+    }
+  };
+
+  const initialUrlState = useMemo(() => getInitialStateFromURL(), []);
+
   // Navigation & View State
-  const [activeTab, setActiveTab] = useState<'explore' | 'compare' | 'deals' | 'favorites' | 'privacy' | 'about' | 'contact'>('explore');
+  const [activeTab, setActiveTab] = useState<'explore' | 'compare' | 'deals' | 'favorites' | 'privacy' | 'about' | 'contact'>(initialUrlState.tab);
   const [isAuthPageOpen, setIsAuthPageOpen] = useState(false);
   const [isVoiceChatOpen, setIsVoiceChatOpen] = useState(false);
   const [isAlertsManagerOpen, setIsAlertsManagerOpen] = useState(false);
@@ -47,7 +68,7 @@ function MainApp() {
   const [isGlobalStoresModalOpen, setIsGlobalStoresModalOpen] = useState(false);
 
   // Selected phone for details modal
-  const [selectedPhoneId, setSelectedPhoneId] = useState<string | null>(null);
+  const [selectedPhoneId, setSelectedPhoneId] = useState<string | null>(initialUrlState.phoneId);
 
   // Selected phone for setting a price alert
   const [phoneForAlert, setPhoneForAlert] = useState<Phone | null>(null);
@@ -63,7 +84,7 @@ function MainApp() {
 
   // Filter State
   const [filters, setFilters] = useState<FilterState>({
-    search: '',
+    search: initialUrlState.search || '',
     brand: 'الكل',
     priceMin: 0,
     priceMax: 6000,
@@ -81,6 +102,42 @@ function MainApp() {
   });
 
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
+  // Sync browser URL whenever activeTab or selectedPhoneId changes
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const url = new URL(window.location.href);
+      if (selectedPhoneId) {
+        url.searchParams.set('phone', selectedPhoneId);
+        url.searchParams.delete('tab');
+      } else {
+        url.searchParams.delete('phone');
+        if (activeTab === 'explore') {
+          url.searchParams.delete('tab');
+        } else {
+          url.searchParams.set('tab', activeTab);
+        }
+      }
+      window.history.replaceState({}, '', url.toString());
+    } catch {
+      // Ignore if in environments without history API
+    }
+  }, [activeTab, selectedPhoneId]);
+
+  // Handle browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      const { tab, phoneId, search } = getInitialStateFromURL();
+      setActiveTab(tab);
+      setSelectedPhoneId(phoneId);
+      if (search) {
+        setFilters((f) => ({ ...f, search }));
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Filtered & Sorted phones
   const filteredPhones = useMemo(() => {
