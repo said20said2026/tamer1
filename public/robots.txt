@@ -150,6 +150,5 @@ Disallow: /search
 Disallow: /p
 Allow: /
 
-# 3. خريطة الموقع
 Sitemap: https://www.games-children.com/sitemap.xml
-Sitemap: /sitemap.xml
+
