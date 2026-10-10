@@ -41,14 +41,25 @@ app.get('/sitemap.xml', (req, res) => {
   }
 });
 
-// Endpoint for robots.txt (dynamically points to the canonical sitemap of the current domain)
+// Endpoint for robots.txt (reads public/robots.txt and dynamically adapts Sitemap host)
 app.get('/robots.txt', (req, res) => {
-  const host = req.get('x-forwarded-host') || req.get('host');
-  const proto = (req.get('x-forwarded-proto') || req.protocol || 'https').split(',')[0].trim();
-  const origin = host ? `${proto}://${host}` : '';
-  
-  res.header('Content-Type', 'text/plain; charset=utf-8');
-  res.send(`User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`);
+  const robotsPath = path.resolve(__dirname, 'public', 'robots.txt');
+  try {
+    let content = fs.readFileSync(robotsPath, 'utf8');
+    const host = req.get('x-forwarded-host') || req.get('host');
+    const proto = (req.get('x-forwarded-proto') || req.protocol || 'https').split(',')[0].trim();
+    const origin = host ? `${proto}://${host}` : '';
+    
+    // Replace relative or generic sitemap with absolute url
+    content = content.replace(/Sitemap:\s*\/sitemap\.xml/g, `Sitemap: ${origin}/sitemap.xml`);
+
+    res.header('Content-Type', 'text/plain; charset=utf-8');
+    res.send(content);
+  } catch (err) {
+    console.error('Error serving robots.txt:', err);
+    res.header('Content-Type', 'text/plain; charset=utf-8');
+    res.send("User-agent: *\nAllow: /\n");
+  }
 });
 
 // Endpoint for Google Search Console HTML verification file
