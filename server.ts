@@ -51,6 +51,12 @@ app.get('/robots.txt', (req, res) => {
   res.send(`User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`);
 });
 
+// Endpoint for Google Search Console HTML verification file
+app.get('/google:code.html', (req, res) => {
+  res.header('Content-Type', 'text/html; charset=utf-8');
+  res.send(`google-site-verification: google${req.params.code}.html`);
+});
+
 
 // Phone context data summary for the AI
 const PHONES_SUMMARY = `
