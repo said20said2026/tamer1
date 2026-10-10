@@ -141,9 +141,15 @@ Disallow: /
 
 # 2. القواعد العامة لمحركات البحث المعتمدة (Googlebot, Bingbot, إلخ)
 User-agent: *
-Allow: /
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /my-account/
 Disallow: /search
 Disallow: /p
+Allow: /
 
 # 3. خريطة الموقع
+Sitemap: https://www.games-children.com/sitemap.xml
 Sitemap: /sitemap.xml
