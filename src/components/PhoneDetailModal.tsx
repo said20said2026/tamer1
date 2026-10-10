@@ -65,7 +65,7 @@ export const PhoneDetailModal: React.FC<PhoneDetailModalProps> = ({
   const { isArabic, direction, t } = useLanguage();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-  const [activeTab, setActiveTab] = useState<'prices' | 'trade_in' | 'specs' | 'pros_cons' | 'reviews' | 'refurbished'>('prices');
+  const [activeTab, setActiveTab] = useState<'prices' | 'trends' | 'trade_in' | 'specs' | 'pros_cons' | 'reviews' | 'refurbished'>('prices');
   const [refurbFilter, setRefurbFilter] = useState<'all' | 'refurbished' | 'used'>('all');
   const [storeFilterTab, setStoreFilterTab] = useState<'all' | 'local' | 'global'>('all');
   const [redirectToast, setRedirectToast] = useState<string | null>(null);
@@ -250,6 +250,20 @@ export const PhoneDetailModal: React.FC<PhoneDetailModalProps> = ({
                   )}
                 </div>
 
+                {/* Quick Link to 30-Day Trends */}
+                <div className="pt-2 flex items-center justify-between border-t border-slate-200/60 text-xs">
+                  <button
+                    onClick={() => setActiveTab('trends')}
+                    className="text-[11px] font-bold text-emerald-700 hover:text-emerald-800 dark:text-emerald-400 flex items-center gap-1.5 transition-colors group cursor-pointer"
+                  >
+                    <BarChart3 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
+                    <span>{isArabic ? 'عرض مخطط تغيرات السعر في الـ 30 يوماً الماضية 📈' : 'View 30-day price trends chart 📈'}</span>
+                  </button>
+                  <span className="text-[10px] font-bold text-slate-400">
+                    {isArabic ? 'تحديث يومي' : 'Daily tracking'}
+                  </span>
+                </div>
+
                 {/* Storage Variant Selector */}
                 <div className="mt-3 pt-3 border-t border-slate-200/60">
                   <label className="block text-xs font-bold text-slate-700 mb-1.5">
@@ -291,6 +305,21 @@ export const PhoneDetailModal: React.FC<PhoneDetailModalProps> = ({
                 }`}
               >
                 {isArabic ? `مقارنة أسعار المتاجر (${phone.offers.length} عروض)` : `Store Prices (${phone.offers.length} offers)`}
+              </button>
+
+              <button
+                onClick={() => setActiveTab('trends')}
+                className={`py-2.5 px-2 text-xs sm:text-sm font-extrabold border-b-2 transition-colors flex items-center gap-1.5 shrink-0 ${
+                  activeTab === 'trends'
+                    ? 'border-emerald-600 text-emerald-950 dark:text-emerald-300 font-black'
+                    : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                }`}
+              >
+                <BarChart3 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>{isArabic ? 'مخطط الأسعار (30 يوماً)' : 'Price Trends (30 Days)'}</span>
+                <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-extrabold px-1.5 py-0.2 rounded-md">
+                  Recharts
+                </span>
               </button>
 
               <button
@@ -628,15 +657,29 @@ export const PhoneDetailModal: React.FC<PhoneDetailModalProps> = ({
                 );
               })()}
 
-              {/* Price History Chart powered by Recharts (Last 3 Months / 6 Months) */}
+              {/* Price History Chart powered by Recharts (Last 30 Days / 3 Months / 6 Months) */}
               <div>
                 <PriceHistoryChart
                   history={phone.priceHistory}
                   currency={currency}
                   phoneName={isArabic ? phone.nameAr : phone.name}
                   originalPriceSAR={phone.originalPriceSAR}
+                  phone={phone}
                 />
               </div>
+            </div>
+          )}
+
+          {/* TAB: DEDICATED PRICE HISTORY & MARKET TRENDS (30 DAYS POWERED BY RECHARTS) */}
+          {activeTab === 'trends' && (
+            <div className="space-y-6 animate-in fade-in duration-150">
+              <PriceHistoryChart
+                history={phone.priceHistory}
+                currency={currency}
+                phoneName={isArabic ? phone.nameAr : phone.name}
+                originalPriceSAR={phone.originalPriceSAR}
+                phone={phone}
+              />
             </div>
           )}
 
