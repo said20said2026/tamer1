@@ -38,16 +38,29 @@ function MainApp() {
   const { user } = useAuth();
   const { isArabic, direction, t } = useLanguage();
 
-  // Read initial parameters from window.location.search
+  // Read initial parameters from window.location (pathname and search)
   const getInitialStateFromURL = () => {
     if (typeof window === 'undefined') return { tab: 'explore', phoneId: null, search: '' };
     try {
+      const rawPath = window.location.pathname.replace(/^\/|\/$/g, '').toLowerCase();
       const params = new URLSearchParams(window.location.search);
-      const tabParam = params.get('tab');
-      const phoneParam = params.get('phone');
+      let tabParam = params.get('tab');
+      let phoneParam = params.get('phone');
       const searchParam = params.get('q') || '';
       
       const validTabs = ['explore', 'compare', 'deals', 'favorites', 'privacy', 'about', 'contact'];
+      if (!tabParam && validTabs.includes(rawPath)) {
+        tabParam = rawPath;
+      }
+      
+      if (!phoneParam && rawPath) {
+        if (PHONES_DATA.some(p => p.id === rawPath)) {
+          phoneParam = rawPath;
+        } else if (rawPath === 'samsung-s25-ultra') {
+          phoneParam = 'samsung-galaxy-s25-ultra';
+        }
+      }
+
       const tab = tabParam && validTabs.includes(tabParam) ? (tabParam as any) : 'explore';
       const phoneId = phoneParam && PHONES_DATA.some(p => p.id === phoneParam) ? phoneParam : null;
 

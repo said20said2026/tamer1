@@ -30,8 +30,8 @@ app.get('/sitemap.xml', (req, res) => {
     const proto = (req.get('x-forwarded-proto') || req.protocol || 'https').split(',')[0].trim();
     const currentOrigin = `${proto}://${host}`;
 
-    // Replace default origin with current request origin
-    content = content.replace(/https:\/\/ais-pre-4dm7wd6x3okloymifhfqwt-132574016671\.europe-west1\.run\.app/g, currentOrigin);
+    // Replace placeholder/default origins with current request origin
+    content = content.replace(/https:\/\/(?:ais-pre-4dm7wd6x3okloymifhfqwt-132574016671\.europe-west1\.run\.app|games-children\.com)/g, currentOrigin);
 
     res.header('Content-Type', 'application/xml; charset=utf-8');
     res.send(content);
