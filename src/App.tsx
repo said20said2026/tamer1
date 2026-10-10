@@ -649,6 +649,26 @@ function MainApp() {
         onToggleCompare={toggleCompare}
         isInComparison={selectedPhoneId ? comparisonPhoneIds.includes(selectedPhoneId) : false}
         onOpenAuth={() => setIsAuthPageOpen(true)}
+        onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
+        onOpenCompareWith={(rivalId) => {
+          if (selectedPhoneId) {
+            setComparisonPhoneIds([selectedPhoneId, rivalId]);
+            setSelectedPhoneId(null);
+            setActiveTab('compare');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }}
+        onFilterByBrand={(brand) => {
+          setSelectedPhoneId(null);
+          setActiveTab('explore');
+          setFilters((prev) => ({ ...prev, brand, search: '' }));
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onNavigateTab={(tab) => {
+          setSelectedPhoneId(null);
+          setActiveTab(tab);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
       />
 
       {/* 2. Set Low Price Alert Modal */}

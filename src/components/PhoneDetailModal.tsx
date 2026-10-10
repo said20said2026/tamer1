@@ -37,6 +37,7 @@ import { TechTooltip } from './TechTooltip';
 import { SharePhoneModal } from './SharePhoneModal';
 import { TradeInCalculator } from './TradeInCalculator';
 import { GlobalStoresModal } from './GlobalStoresModal';
+import { OnPageInternalLinks } from './OnPageInternalLinks';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -49,6 +50,10 @@ interface PhoneDetailModalProps {
   onToggleCompare: (phone: Phone) => void;
   isInComparison: boolean;
   onOpenAuth?: () => void;
+  onSelectPhone?: (phoneId: string) => void;
+  onOpenCompareWith?: (rivalId: string) => void;
+  onFilterByBrand?: (brand: string) => void;
+  onNavigateTab?: (tab: 'explore' | 'compare' | 'deals') => void;
 }
 
 export const PhoneDetailModal: React.FC<PhoneDetailModalProps> = ({
@@ -60,6 +65,10 @@ export const PhoneDetailModal: React.FC<PhoneDetailModalProps> = ({
   onToggleCompare,
   isInComparison,
   onOpenAuth,
+  onSelectPhone,
+  onOpenCompareWith,
+  onFilterByBrand,
+  onNavigateTab,
 }) => {
   const { isFavorite, toggleFavorite } = useAuth();
   const { isArabic, direction, t } = useLanguage();
@@ -1140,6 +1149,34 @@ export const PhoneDetailModal: React.FC<PhoneDetailModalProps> = ({
               <UserReviews phoneId={phone.id} phoneName={phone.nameAr} onOpenAuth={onOpenAuth} />
             </div>
           )}
+
+          {/* On-Page SEO: تهيئة السيو الداخلي للمقالات والروابط الداخلية (Internal Linking Hub) */}
+          <OnPageInternalLinks
+            phone={phone}
+            currency={currency}
+            onSelectPhone={(newPhoneId) => {
+              if (onSelectPhone) {
+                onSelectPhone(newPhoneId);
+              }
+            }}
+            onOpenCompareWith={(rivalId) => {
+              if (onOpenCompareWith) {
+                onOpenCompareWith(rivalId);
+              }
+            }}
+            onFilterByBrand={(brand) => {
+              onClose();
+              if (onFilterByBrand) {
+                onFilterByBrand(brand);
+              }
+            }}
+            onNavigateTab={(tab) => {
+              onClose();
+              if (onNavigateTab) {
+                onNavigateTab(tab);
+              }
+            }}
+          />
         </div>
       </div>
 
