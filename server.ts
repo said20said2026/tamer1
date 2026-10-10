@@ -12,6 +12,28 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
 
+// Custom robot header tags (علامات رؤوس مخصصة لبرامج الروبوت - X-Robots-Tag)
+// • علامات صفحات الأرشيف والبحث: noindex و noodp
+// • علامات الصفحة الرئيسية والمشاركات والصفحات: all و noodp
+app.use((req, res, next) => {
+  const reqPath = req.path.toLowerCase();
+  const isSearchOrArchive =
+    reqPath.startsWith('/search') ||
+    reqPath.startsWith('/archive') ||
+    reqPath.startsWith('/label') ||
+    Boolean(req.query.search) ||
+    Boolean(req.query.q) ||
+    Boolean(req.query['updated-min']) ||
+    Boolean(req.query['updated-max']);
+
+  if (isSearchOrArchive) {
+    res.setHeader('X-Robots-Tag', 'noindex, noodp');
+  } else {
+    res.setHeader('X-Robots-Tag', 'all, noodp');
+  }
+  next();
+});
+
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 const apiKey = process.env.GEMINI_API_KEY;

@@ -152,6 +152,28 @@ function MainApp() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  // علامات رؤوس مخصصة لبرامج الروبوت (Custom Robot Meta Tags)
+  // • علامات صفحات الأرشيف والبحث: noindex و noodp
+  // • علامات الصفحة الرئيسية والمشاركات والصفحات: all و noodp
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const isSearching = Boolean(filters.search && filters.search.trim().length > 0);
+    const content = isSearching ? 'noindex, noodp' : 'all, noodp';
+
+    const updateMetaTag = (name: string, value: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`);
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('name', name);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', value);
+    };
+
+    updateMetaTag('robots', content);
+    updateMetaTag('googlebot', content);
+  }, [filters.search, activeTab, selectedPhoneId]);
+
   // Filtered & Sorted phones
   const filteredPhones = useMemo(() => {
     return PHONES_DATA.filter((phone) => {
