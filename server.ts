@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import compression from 'compression';
 import { GoogleGenAI } from '@google/genai';
 
 dotenv.config();
@@ -10,6 +11,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// Performance Optimization: Compress all HTTP responses (gzip/deflate)
+app.use(
+  compression({
+    threshold: 1024, // Compress responses larger than 1KB
+    level: 6,
+  })
+);
+
 app.use(express.json());
 
 // Custom robot header tags (علامات رؤوس مخصصة لبرامج الروبوت - X-Robots-Tag)
@@ -222,8 +232,24 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    app.use(express.static(path.resolve(__dirname, 'dist')));
+    // Serve hashed assets (/assets/*) with 1-year immutable cache, and other static files with 1-day cache
+    app.use(
+      express.static(path.resolve(__dirname, 'dist'), {
+        maxAge: '1y',
+        immutable: true,
+        setHeaders: (res, filePath) => {
+          if (filePath.endsWith('.html')) {
+            res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+          } else if (filePath.includes('/assets/')) {
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+          } else {
+            res.setHeader('Cache-Control', 'public, max-age=86400');
+          }
+        },
+      })
+    );
     app.get('*', (_req, res) => {
+      res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
       res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
     });
   }

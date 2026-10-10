@@ -40,7 +40,7 @@ interface PhoneCardProps {
   onSetComparisonIds?: (ids: string[]) => void;
 }
 
-export const PhoneCard: React.FC<PhoneCardProps> = ({
+const PhoneCardComponent: React.FC<PhoneCardProps> = ({
   phone,
   currency,
   isInComparison,
@@ -189,6 +189,9 @@ export const PhoneCard: React.FC<PhoneCardProps> = ({
             src={phone.image}
             alt={phone.name}
             loading="lazy"
+            decoding="async"
+            width="300"
+            height="300"
             className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
           />
 
@@ -539,3 +542,5 @@ export const PhoneCard: React.FC<PhoneCardProps> = ({
     </div>
   );
 };
+
+export const PhoneCard = React.memo(PhoneCardComponent);

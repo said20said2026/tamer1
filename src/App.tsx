@@ -1,20 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, lazy, Suspense } from 'react';
 import { Navbar } from './components/Navbar';
 import { FilterSidebar } from './components/FilterSidebar';
 import { PhoneCard } from './components/PhoneCard';
-import { ComparisonView } from './components/ComparisonView';
-import { PhoneDetailModal } from './components/PhoneDetailModal';
-import { PriceAlertModal } from './components/PriceAlertModal';
-import { AlertsManagerModal } from './components/AlertsManagerModal';
-import { GeminiVoiceChat } from './components/GeminiVoiceChat';
 import { DealsBanner } from './components/DealsBanner';
-import { LoginPage } from './components/LoginPage';
-import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
-import { TermsOfServicePage } from './components/TermsOfServicePage';
-import { AboutUsPage } from './components/AboutUsPage';
-import { ContactUsPage } from './components/ContactUsPage';
-import { GlobalStoresModal } from './components/GlobalStoresModal';
-import { BarcodeScannerModal } from './components/BarcodeScannerModal';
 import { Footer } from './components/Footer';
 import { PHONES_DATA } from './data/phonesData';
 import { Phone, FilterState, CurrencyCode, PriceAlert } from './types/phone';
@@ -30,9 +18,31 @@ import {
   Trash2, 
   ChevronRight,
   TrendingDown,
-  Bell
+  Bell,
+  Loader2
 } from 'lucide-react';
 import { formatPrice } from './utils/currency';
+
+// Dynamic lazy imports for non-critical views and heavy modals (Core Web Vitals & Performance Optimization)
+const ComparisonView = lazy(() => import('./components/ComparisonView').then(m => ({ default: m.ComparisonView })));
+const PhoneDetailModal = lazy(() => import('./components/PhoneDetailModal').then(m => ({ default: m.PhoneDetailModal })));
+const PriceAlertModal = lazy(() => import('./components/PriceAlertModal').then(m => ({ default: m.PriceAlertModal })));
+const AlertsManagerModal = lazy(() => import('./components/AlertsManagerModal').then(m => ({ default: m.AlertsManagerModal })));
+const GeminiVoiceChat = lazy(() => import('./components/GeminiVoiceChat').then(m => ({ default: m.GeminiVoiceChat })));
+const LoginPage = lazy(() => import('./components/LoginPage').then(m => ({ default: m.LoginPage })));
+const PrivacyPolicyPage = lazy(() => import('./components/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
+const TermsOfServicePage = lazy(() => import('./components/TermsOfServicePage').then(m => ({ default: m.TermsOfServicePage })));
+const AboutUsPage = lazy(() => import('./components/AboutUsPage').then(m => ({ default: m.AboutUsPage })));
+const ContactUsPage = lazy(() => import('./components/ContactUsPage').then(m => ({ default: m.ContactUsPage })));
+const GlobalStoresModal = lazy(() => import('./components/GlobalStoresModal').then(m => ({ default: m.GlobalStoresModal })));
+const BarcodeScannerModal = lazy(() => import('./components/BarcodeScannerModal').then(m => ({ default: m.BarcodeScannerModal })));
+
+const ViewLoadingFallback = () => (
+  <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3 p-8">
+    <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
+    <span className="text-xs font-semibold text-slate-500">جاري التحميل...</span>
+  </div>
+);
 
 function MainApp() {
   const { user } = useAuth();
@@ -346,89 +356,101 @@ function MainApp() {
       <main className="flex-1">
         {/* VIEW 1: AUTHENTICATION / LOGIN PAGE */}
         {isAuthPageOpen ? (
-          <LoginPage
-            onClose={() => setIsAuthPageOpen(false)}
-            onNavigateHome={() => {
-              setIsAuthPageOpen(false);
-              setActiveTab('explore');
-            }}
-            onSelectPhone={(phoneId) => {
-              setIsAuthPageOpen(false);
-              setSelectedPhoneId(phoneId);
-            }}
-          />
+          <Suspense fallback={<ViewLoadingFallback />}>
+            <LoginPage
+              onClose={() => setIsAuthPageOpen(false)}
+              onNavigateHome={() => {
+                setIsAuthPageOpen(false);
+                setActiveTab('explore');
+              }}
+              onSelectPhone={(phoneId) => {
+                setIsAuthPageOpen(false);
+                setSelectedPhoneId(phoneId);
+              }}
+            />
+          </Suspense>
         ) : activeTab === 'compare' ? (
           /* VIEW 2: SIDE-BY-SIDE SPEC COMPARISON */
-          <ComparisonView
-            selectedPhones={selectedComparisonPhones}
-            onRemovePhone={removeComparePhone}
-            onAddPhone={addComparePhone}
-            onSelectPhoneForDetails={(id) => setSelectedPhoneId(id)}
-            currency={currency}
-            onBackToExplore={() => setActiveTab('explore')}
-          />
+          <Suspense fallback={<ViewLoadingFallback />}>
+            <ComparisonView
+              selectedPhones={selectedComparisonPhones}
+              onRemovePhone={removeComparePhone}
+              onAddPhone={addComparePhone}
+              onSelectPhoneForDetails={(id) => setSelectedPhoneId(id)}
+              currency={currency}
+              onBackToExplore={() => setActiveTab('explore')}
+            />
+          </Suspense>
         ) : activeTab === 'privacy' ? (
           /* VIEW 4: PRIVACY POLICY (سياسة الخصوصية) */
-          <PrivacyPolicyPage
-            onExplore={() => {
-              setActiveTab('explore');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenCompare={() => {
-              setActiveTab('compare');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenVoiceChat={() => setIsVoiceChatOpen(true)}
-          />
+          <Suspense fallback={<ViewLoadingFallback />}>
+            <PrivacyPolicyPage
+              onExplore={() => {
+                setActiveTab('explore');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenCompare={() => {
+                setActiveTab('compare');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenVoiceChat={() => setIsVoiceChatOpen(true)}
+            />
+          </Suspense>
         ) : activeTab === 'terms' ? (
           /* VIEW 4.5: TERMS OF SERVICE (شروط الاستخدام) */
-          <TermsOfServicePage
-            onExplore={() => {
-              setActiveTab('explore');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenCompare={() => {
-              setActiveTab('compare');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenPrivacy={() => {
-              setActiveTab('privacy');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenContact={() => {
-              setActiveTab('contact');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
+          <Suspense fallback={<ViewLoadingFallback />}>
+            <TermsOfServicePage
+              onExplore={() => {
+                setActiveTab('explore');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenCompare={() => {
+                setActiveTab('compare');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenPrivacy={() => {
+                setActiveTab('privacy');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenContact={() => {
+                setActiveTab('contact');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
+          </Suspense>
         ) : activeTab === 'about' ? (
           /* VIEW 5: ABOUT US (من نحن) */
-          <AboutUsPage
-            onExplore={() => {
-              setActiveTab('explore');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenCompare={() => {
-              setActiveTab('compare');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenContact={() => {
-              setActiveTab('contact');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
+          <Suspense fallback={<ViewLoadingFallback />}>
+            <AboutUsPage
+              onExplore={() => {
+                setActiveTab('explore');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenCompare={() => {
+                setActiveTab('compare');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenContact={() => {
+                setActiveTab('contact');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
+          </Suspense>
         ) : activeTab === 'contact' ? (
           /* VIEW 6: CONTACT US (اتصل بنا) */
-          <ContactUsPage
-            onExplore={() => {
-              setActiveTab('explore');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onOpenVoiceChat={() => setIsVoiceChatOpen(true)}
-            onOpenAbout={() => {
-              setActiveTab('about');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
+          <Suspense fallback={<ViewLoadingFallback />}>
+            <ContactUsPage
+              onExplore={() => {
+                setActiveTab('explore');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onOpenVoiceChat={() => setIsVoiceChatOpen(true)}
+              onOpenAbout={() => {
+                setActiveTab('about');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
+          </Suspense>
         ) : (
           /* VIEW 3: EXPLORE MARKETPLACE & GALLERY */
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -638,90 +660,114 @@ function MainApp() {
         </div>
       )}
 
-      {/* Modals */}
+      {/* Modals - Lazy Loaded & Mounted only when active */}
       {/* 1. Phone Details Modal */}
-      <PhoneDetailModal
-        phone={selectedPhoneForModal}
-        isOpen={!!selectedPhoneId}
-        onClose={() => setSelectedPhoneId(null)}
-        currency={currency}
-        onOpenAlertModal={(p) => setPhoneForAlert(p)}
-        onToggleCompare={toggleCompare}
-        isInComparison={selectedPhoneId ? comparisonPhoneIds.includes(selectedPhoneId) : false}
-        onOpenAuth={() => setIsAuthPageOpen(true)}
-        onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
-        onOpenCompareWith={(rivalId) => {
-          if (selectedPhoneId) {
-            setComparisonPhoneIds([selectedPhoneId, rivalId]);
-            setSelectedPhoneId(null);
-            setActiveTab('compare');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }
-        }}
-        onFilterByBrand={(brand) => {
-          setSelectedPhoneId(null);
-          setActiveTab('explore');
-          setFilters((prev) => ({ ...prev, brand, search: '' }));
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-        onNavigateTab={(tab) => {
-          setSelectedPhoneId(null);
-          setActiveTab(tab);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-      />
+      {selectedPhoneId && (
+        <Suspense fallback={null}>
+          <PhoneDetailModal
+            phone={selectedPhoneForModal}
+            isOpen={!!selectedPhoneId}
+            onClose={() => setSelectedPhoneId(null)}
+            currency={currency}
+            onOpenAlertModal={(p) => setPhoneForAlert(p)}
+            onToggleCompare={toggleCompare}
+            isInComparison={selectedPhoneId ? comparisonPhoneIds.includes(selectedPhoneId) : false}
+            onOpenAuth={() => setIsAuthPageOpen(true)}
+            onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
+            onOpenCompareWith={(rivalId) => {
+              if (selectedPhoneId) {
+                setComparisonPhoneIds([selectedPhoneId, rivalId]);
+                setSelectedPhoneId(null);
+                setActiveTab('compare');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            onFilterByBrand={(brand) => {
+              setSelectedPhoneId(null);
+              setActiveTab('explore');
+              setFilters((prev) => ({ ...prev, brand, search: '' }));
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onNavigateTab={(tab) => {
+              setSelectedPhoneId(null);
+              setActiveTab(tab);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        </Suspense>
+      )}
 
       {/* 2. Set Low Price Alert Modal */}
-      <PriceAlertModal
-        phone={phoneForAlert}
-        isOpen={!!phoneForAlert}
-        onClose={() => setPhoneForAlert(null)}
-        currency={currency}
-        onAlertCreated={() => {
-          // Toast or sync
-        }}
-      />
+      {phoneForAlert && (
+        <Suspense fallback={null}>
+          <PriceAlertModal
+            phone={phoneForAlert}
+            isOpen={!!phoneForAlert}
+            onClose={() => setPhoneForAlert(null)}
+            currency={currency}
+            onAlertCreated={() => {
+              // Toast or sync
+            }}
+          />
+        </Suspense>
+      )}
 
       {/* 3. Alerts Manager Modal */}
-      <AlertsManagerModal
-        isOpen={isAlertsManagerOpen}
-        onClose={() => setIsAlertsManagerOpen(false)}
-        currency={currency}
-        onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
-      />
+      {isAlertsManagerOpen && (
+        <Suspense fallback={null}>
+          <AlertsManagerModal
+            isOpen={isAlertsManagerOpen}
+            onClose={() => setIsAlertsManagerOpen(false)}
+            currency={currency}
+            onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
+          />
+        </Suspense>
+      )}
 
       {/* 4. Gemini Voice Chat Modal */}
-      <GeminiVoiceChat
-        userCurrency={currency}
-        isOpen={isVoiceChatOpen}
-        onClose={() => setIsVoiceChatOpen(false)}
-        onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
-      />
+      {isVoiceChatOpen && (
+        <Suspense fallback={null}>
+          <GeminiVoiceChat
+            userCurrency={currency}
+            isOpen={isVoiceChatOpen}
+            onClose={() => setIsVoiceChatOpen(false)}
+            onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
+          />
+        </Suspense>
+      )}
 
       {/* 5. Barcode Packaging Scanner Modal */}
-      <BarcodeScannerModal
-        isOpen={isBarcodeScannerOpen}
-        onClose={() => setIsBarcodeScannerOpen(false)}
-        currency={currency}
-        onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
-        onAddToCompare={(phone) => addComparePhone(phone)}
-        onSearchPhone={(code) => {
-          setFilters((f) => ({ ...f, search: code }));
-          setActiveTab('explore');
-        }}
-      />
+      {isBarcodeScannerOpen && (
+        <Suspense fallback={null}>
+          <BarcodeScannerModal
+            isOpen={isBarcodeScannerOpen}
+            onClose={() => setIsBarcodeScannerOpen(false)}
+            currency={currency}
+            onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
+            onAddToCompare={(phone) => addComparePhone(phone)}
+            onSearchPhone={(code) => {
+              setFilters((f) => ({ ...f, search: code }));
+              setActiveTab('explore');
+            }}
+          />
+        </Suspense>
+      )}
 
       {/* 6. Global Stores & International Import Directory Modal */}
-      <GlobalStoresModal
-        isOpen={isGlobalStoresModalOpen}
-        onClose={() => setIsGlobalStoresModalOpen(false)}
-        currency={currency}
-        onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
-        onFilterGlobalOnly={() => {
-          setFilters((f) => ({ ...f, storeOriginFilter: 'global_only' }));
-          setActiveTab('explore');
-        }}
-      />
+      {isGlobalStoresModalOpen && (
+        <Suspense fallback={null}>
+          <GlobalStoresModal
+            isOpen={isGlobalStoresModalOpen}
+            onClose={() => setIsGlobalStoresModalOpen(false)}
+            currency={currency}
+            onSelectPhone={(phoneId) => setSelectedPhoneId(phoneId)}
+            onFilterGlobalOnly={() => {
+              setFilters((f) => ({ ...f, storeOriginFilter: 'global_only' }));
+              setActiveTab('explore');
+            }}
+          />
+        </Suspense>
+      )}
 
       {/* Footer */}
       <Footer
