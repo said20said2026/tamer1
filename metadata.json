@@ -1,0 +1,6 @@
+{
+  "name": "قارن تك - مقارنة أسعار ومواصفات الهواتف",
+  "description": "منصة شاملة لمقارنة أسعار الهواتف الذكية في كبرى المتاجر العربية مع تتبع تاريخ الأسعار ومقارنة المواصفات التفصيلية وتنبيهات الخصومات.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
