@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- الصفحة الرئيسية (Homepage) -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?lang=en" />
+  </url>
+
+  <!-- مقارنة الهواتف (Comparison Tool) -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?tab=compare</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- أحدث العروض والخصومات (Best Deals) -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?tab=deals</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- من نحن (About Us) -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?tab=about</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- اتصل بنا (Contact Us) -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?tab=contact</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- سياسة الخصوصية (Privacy Policy) -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?tab=privacy</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- صفحات الهواتف الفردية ومقارنات الأسعار (Product Pages) -->
+  <!-- iPhone 16 Pro Max -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=iphone-16-pro-max</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Apple iPhone 16 Pro Max - آيفون 16 برو ماكس</image:title>
+    </image:image>
+  </url>
+
+  <!-- Samsung Galaxy S25 Ultra -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=samsung-galaxy-s25-ultra</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Samsung Galaxy S25 Ultra - سامسونج جالاكسي إس 25 ألترا</image:title>
+    </image:image>
+  </url>
+
+  <!-- Xiaomi 15 Pro -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=xiaomi-15-pro</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Xiaomi 15 Pro - شاومي 15 برو</image:title>
+    </image:image>
+  </url>
+
+  <!-- Google Pixel 9 Pro XL -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=google-pixel-9-pro-xl</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Google Pixel 9 Pro XL - جوجل بكسل 9 برو إكس إل</image:title>
+    </image:image>
+  </url>
+
+  <!-- OnePlus 13 -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=oneplus-13</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>OnePlus 13 - ون بلس 13</image:title>
+    </image:image>
+  </url>
+
+  <!-- Samsung Galaxy A55 5G -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=samsung-galaxy-a55</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Samsung Galaxy A55 5G - سامسونج جالاكسي إيه 55</image:title>
+    </image:image>
+  </url>
+
+  <!-- iPhone 16 -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=iphone-16</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Apple iPhone 16 - آيفون 16</image:title>
+    </image:image>
+  </url>
+
+  <!-- Poco F6 Pro -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=poco-f6-pro</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Poco F6 Pro - بوكو إف 6 برو</image:title>
+    </image:image>
+  </url>
+
+  <!-- Honor Magic 7 Pro -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=honor-magic-7-pro</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Honor Magic 7 Pro - هونر ماجيك 7 برو</image:title>
+    </image:image>
+  </url>
+
+  <!-- Nothing Phone (2a) Plus -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=nothing-phone-2a-plus</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Nothing Phone (2a) Plus - ناثينج فون 2a بلس</image:title>
+    </image:image>
+  </url>
+
+  <!-- Xiaomi 14T Pro -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=xiaomi-14t-pro</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Xiaomi 14T Pro - شاومي 14 تي برو</image:title>
+    </image:image>
+  </url>
+
+  <!-- Samsung Galaxy S25+ -->
+  <url>
+    <loc>https://ais-pre-4dm7wd6x3okloymifhfqwt-132574016671.europe-west1.run.app/?phone=samsung-galaxy-s25-plus</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&amp;fit=crop&amp;w=700&amp;q=80</image:loc>
+      <image:title>Samsung Galaxy S25+ - سامسونج جالاكسي إس 25 بلس</image:title>
+    </image:image>
+  </url>
+
+</urlset>

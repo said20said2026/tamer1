@@ -17,6 +17,21 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const apiKey = process.env.GEMINI_API_KEY;
 const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
+// Endpoint for sitemap.xml
+app.get('/sitemap.xml', (_req, res) => {
+  const sitemapPath = path.resolve(__dirname, 'public', 'sitemap.xml');
+  res.header('Content-Type', 'application/xml');
+  res.sendFile(sitemapPath);
+});
+
+// Endpoint for robots.txt
+app.get('/robots.txt', (_req, res) => {
+  const robotsPath = path.resolve(__dirname, 'public', 'robots.txt');
+  res.header('Content-Type', 'text/plain');
+  res.sendFile(robotsPath);
+});
+
+
 // Phone context data summary for the AI
 const PHONES_SUMMARY = `
 قائمة الهواتف المتوفرة في قاعدة بيانات قارن تك وأسعارها بالريال السعودي:

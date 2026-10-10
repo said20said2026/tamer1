@@ -195,6 +195,15 @@ export const Footer: React.FC<FooterProps> = ({
               </button>
             )}
             <span aria-hidden="true">·</span>
+            <a
+              href="/sitemap.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-amber-400 underline transition-colors"
+            >
+              {isArabic ? 'خريطة الموقع (sitemap.xml)' : 'Sitemap (XML)'}
+            </a>
+            <span aria-hidden="true">·</span>
             <span>{isArabic ? 'دقة وتحديث مستمر بمحرك مقارنة الأسعار' : 'Continuous Live Engine Updates'}</span>
           </div>
         </div>
