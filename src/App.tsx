@@ -29,7 +29,6 @@ import {
   Trash2, 
   ChevronRight,
   TrendingDown,
-  Volume2,
   Bell
 } from 'lucide-react';
 import { formatPrice } from './utils/currency';

@@ -3,10 +3,8 @@ import {
   Search, 
   Scale, 
   Heart, 
-  Sparkles, 
   Percent, 
   Smartphone, 
-  Volume2, 
   ChevronDown, 
   Menu, 
   X, 
@@ -32,7 +30,7 @@ interface NavbarProps {
   onSearchChange: (query: string) => void;
   compareCount: number;
   onOpenCompare: () => void;
-  onOpenVoiceChat: () => void;
+  onOpenVoiceChat?: () => void;
   onOpenAuth?: () => void;
   onOpenBarcodeScanner?: () => void;
   onOpenGlobalStores?: () => void;
@@ -47,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSearchChange,
   compareCount,
   onOpenCompare,
-  onOpenVoiceChat,
+  onOpenVoiceChat: _onOpenVoiceChat,
   onOpenAuth: _onOpenAuth,
   onOpenBarcodeScanner,
   onOpenGlobalStores,
@@ -145,14 +143,6 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="bg-slate-900 text-slate-300 text-[11px] py-1 px-4 text-center flex items-center justify-center gap-2 font-medium">
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span>{t.topBanner}</span>
-        <span aria-hidden="true" className="text-slate-600 hidden sm:inline">|</span>
-        <button
-          onClick={onOpenVoiceChat}
-          className="text-amber-400 hover:text-amber-300 font-bold hidden sm:inline-flex items-center gap-1 transition-colors"
-        >
-          <Sparkles className="w-3 h-3" />
-          {t.askGeminiVoice}
-        </button>
       </div>
 
       {/* Main navigation bar */}
@@ -343,19 +333,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </div>
 
-          {/* Right Action Controls: Voice Chat, Language, Currency, Auth */}
+          {/* Right Action Controls: Language, Currency, Dark Mode */}
           <div className="flex items-center gap-2 sm:gap-2.5">
-            {/* Gemini Voice Chat Button */}
-            <button
-              onClick={onOpenVoiceChat}
-              className="flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-slate-950 font-extrabold text-xs rounded-xl shadow-xs transition-all active:scale-95"
-              title={t.askGeminiVoice}
-            >
-              <Volume2 className="w-4 h-4" />
-              <span className="hidden sm:inline">{isArabic ? 'مستشار صوتي' : 'Voice Advisor'}</span>
-              <span className="text-[10px] bg-slate-950 text-amber-300 px-1 py-0.2 rounded font-black">AI</span>
-            </button>
-
             {/* Language Switcher (AR / EN) */}
             <button
               onClick={toggleLanguage}
