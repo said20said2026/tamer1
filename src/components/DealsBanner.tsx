@@ -2,6 +2,7 @@ import React from 'react';
 import { Percent, TrendingDown, ArrowDownRight, Sparkles, ChevronLeft } from 'lucide-react';
 import { Phone, CurrencyCode } from '../types/phone';
 import { formatPrice } from '../utils/currency';
+import { getOptimizedImageUrl } from '../utils/imageOptimizer';
 
 interface DealsBannerProps {
   phones: Phone[];
@@ -75,8 +76,12 @@ export const DealsBanner: React.FC<DealsBannerProps> = ({
                 <div className="flex items-start gap-3">
                   <div className="w-16 h-16 rounded-xl bg-slate-900 p-1.5 shrink-0 overflow-hidden border border-slate-700">
                     <img
-                      src={phone.image}
+                      src={getOptimizedImageUrl(phone.image, 120, 75)}
                       alt={phone.name}
+                      loading="lazy"
+                      decoding="async"
+                      width="64"
+                      height="64"
                       className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform"
                     />
                   </div>

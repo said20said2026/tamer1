@@ -183,6 +183,9 @@ export const PhoneDetailModal: React.FC<PhoneDetailModalProps> = ({
                 <img
                   src={phone.image}
                   alt={phone.name}
+                  decoding="async"
+                  width="224"
+                  height="224"
                   className="w-full h-full object-cover rounded-xl shadow-xs"
                 />
               </div>

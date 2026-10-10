@@ -27,6 +27,7 @@ import { formatPrice } from '../utils/currency';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { PHONES_DATA } from '../data/phonesData';
+import { getOptimizedImageUrl, getResponsiveImageSrcSet } from '../utils/imageOptimizer';
 
 interface PhoneCardProps {
   phone: Phone;
@@ -139,7 +140,7 @@ const PhoneCardComponent: React.FC<PhoneCardProps> = ({
 
   return (
     <div
-      className={`bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group relative ${
+      className={`bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group relative mobile-card-contain ${
         isDropdownOpen ? 'overflow-visible z-30' : 'overflow-hidden'
       }`}
     >
@@ -186,7 +187,9 @@ const PhoneCardComponent: React.FC<PhoneCardProps> = ({
           className="relative w-full aspect-square max-h-52 bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-center justify-center overflow-hidden cursor-pointer mb-3 border border-slate-100 dark:border-slate-800 group-hover:bg-slate-100/60 dark:group-hover:bg-slate-800 transition-colors"
         >
           <img
-            src={phone.image}
+            src={getOptimizedImageUrl(phone.image, 340, 75)}
+            srcSet={getResponsiveImageSrcSet(phone.image)}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px"
             alt={phone.name}
             loading="lazy"
             decoding="async"
